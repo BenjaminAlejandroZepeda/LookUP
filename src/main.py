@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = FastAPI()
-
+print("Hola mundo")
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_KEY")
 
