@@ -1,5 +1,5 @@
 # 1. Imagen base ligera de Python
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 # 2. Configuración de variables de entorno para Python
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # 4. Instalar Poetry usando el lanzador de python
-RUN pip install poetry
+RUN poetry install --no-interaction --no-ansi --no-root
 
 # 5. Copiar archivos de configuración de dependencias
 COPY pyproject.toml poetry.lock* ./
