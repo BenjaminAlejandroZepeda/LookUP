@@ -1,0 +1,25 @@
+# Entornos virtuales (MUY IMPORTANTE)
+.venv/
+venv/
+ENV/
+env/
+
+# Python (Caché y compilados)
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+
+# Variables de entorno (Seguridad)
+.env
+.env.local
+
+# IDEs y Editores
+.vscode/
+.idea/
+*.swp
+
+# Docker logs
+*.log
+docker-stack.yml
