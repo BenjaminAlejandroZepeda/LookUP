@@ -10,21 +10,21 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4 
       
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5 
         with:
-          python-version: '3.11'
+          python-version: '3.12' 
 
       - name: Install Poetry
         run: pip install poetry
 
       - name: Install dependencies
-        run: poetry install
+        run: poetry install --no-root
 
       - name: Run Tests
-        run: poetry run pytest  
+        run: poetry run pytest
         continue-on-error: true 
 
   deploy:
@@ -33,5 +33,4 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Deploy to Render
-
-        run: curl ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}

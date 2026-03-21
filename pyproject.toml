@@ -2,7 +2,6 @@
 name = "lookup"
 version = "0.1.0"
 description = ""
-package-mode = false
 authors = [
     {name = "BenjaminAlejandroZepeda",email = "ben.zepeda@duocuc.cl"}
 ]
@@ -25,3 +24,6 @@ dev = [
     "pytest (>=9.0.2,<10.0.0)",
     "httpx (>=0.28.1,<0.29.0)"
 ]
+
+[tool.poetry]
+package-mode = false
