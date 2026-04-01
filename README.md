@@ -2,11 +2,21 @@
 
 **Stack:** FastAPI · Poetry 2.0 · Docker · Supabase · GitHub Actions · Render
 
+Descripción: 
+Es un Proyecto que predice precios para analisis y visualización en un dashboard.
+
 Render: https://lookup-1-rixc.onrender.com/
 
 FastApi: https://lookup-1-rixc.onrender.com/docs#/
 
 Documentación de planificación: https://docs.google.com/document/d/1FArSQH4PyGylOAXYug2YZbu0Jy2Hk1fR/edit?usp=drivesdk&ouid=118125592701576502401&rtpof=true&sd=true
+
+Dependencias: 
+ · scikit-learn
+ · numpy
+ · simpy
+ · matplotlib
+ · pandas
 
 ## 1. Arquitectura del Proyecto
  
@@ -103,9 +113,10 @@ Push a main
 
 ---
 
-## Autor
+## Autores
 
-**Benjamin Alejandro Zepeda**  
+**Benjamin Zepeda, Ezequiel aceituno, Antonia faundes**  
 Ingeniería en Informática · Especialización IA  
 [ben.zepeda@duocuc.cl](mailto:ben.zepeda@duocuc.cl)  
 Marzo 2026
+
