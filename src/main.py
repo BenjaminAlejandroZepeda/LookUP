@@ -1,20 +1,25 @@
-import os
-from fastapi import FastAPI
-from supabase import create_client, Client
-from dotenv import load_dotenv
-
-load_dotenv()
+from fastapi import FastAPI, HTTPException
+from src.db import get_supabase
 
 app = FastAPI()
-print("Hola mundo")
-url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_KEY")
 
-if not url or not key:
-    print("Error: No se encontraron las variables de entorno de Supabase")
-else:
-    supabase: Client = create_client(url, key)
 
 @app.get("/")
 def read_root():
-    return {"message": "API de IA en Render conectada a Supabase"}
+    return {"message": "API corriendo 🚀"}
+
+
+@app.get("/test-db")
+def test_connection():
+    try:
+        supabase = get_supabase()
+
+        response = supabase.table("items").select("*").limit(1).execute()
+
+        return {
+            "status": "ok",
+            "data": response.data
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
