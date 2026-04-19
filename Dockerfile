@@ -22,7 +22,8 @@ RUN pip install \
     "uvicorn>=0.42.0,<0.43.0" \
     "matplotlib>=3.10.8,<4.0.0" \
     "python-dotenv>=1.2.2,<2.0.0" \
-    "supabase>=2.28.2,<3.0.0"
+    "supabase>=2.28.2,<3.0.0" \
+    "pandas>=3.0.0"
 
 # 5. Copiar el código
 COPY . .
