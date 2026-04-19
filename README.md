@@ -11,12 +11,16 @@ FastApi: https://lookup-1-rixc.onrender.com/docs#/
 
 Documentación de planificación: https://docs.google.com/document/d/1FArSQH4PyGylOAXYug2YZbu0Jy2Hk1fR/edit?usp=drivesdk&ouid=118125592701576502401&rtpof=true&sd=true
 
-Dependencias: 
- · scikit-learn
- · numpy
- · simpy
- · matplotlib
- · pandas
+Tecnologías y Dependencias:
+   Core: Python 3.12, FastAPI, Uvicorn.
+   
+   Gestión de Dependencias: Poetry 2.0.
+   
+   Ciencia de Datos: scikit-learn, numpy, pandas, matplotlib, simpy.
+   
+   Base de Datos: Supabase Python Client (PostgreSQL).
+   
+   Infraestructura: Docker, GitHub Actions, Render.
 
 ## 1. Arquitectura del Proyecto
  
@@ -32,10 +36,12 @@ LookUP/
 
 ## 2. Configuración del Entorno Local
 
-### Requisitos previos
-
-- Python 3.12+
-- Poetry 2.0 
+1. Requisitos previos:
+      Python 3.12+
+      
+      Poetry 2.0
+      
+      Docker (opcional para ejecución local)
 
 ### Instalación
 
@@ -62,7 +68,22 @@ SUPABASE_KEY=tu_key_de_supabase
 ```powershell
 py -m poetry run uvicorn src.main:app --reload
 ```
+Uso con Docker
 
+PowerShell
+   # Construir imagen
+   docker build -t lookup-api:1.0 .
+   
+   # Ejecutar contenedor
+   docker run --env-file .env -p 8000:8000 lookup-api:1.0
+
+
+Endpoints Disponibles:
+GET/	Health Check: Verifica que la API esté corriendo.
+
+GET/test-db	Conexión: Prueba la respuesta de la base de datos Supabase.
+
+GET/docs	Swagger UI: Documentación interactiva de la API.
 
 ## 3. Base de Datos (Supabase)
 
