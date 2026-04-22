@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import logging
 from datetime import datetime
-from src.db import get_supabase
+from src.config import get_supabase
 
 logging.basicConfig(level=logging.INFO)
 
@@ -39,3 +39,17 @@ def ingestar_csv_task(ruta_csv: str = "src/abandono_escolar_dataset.csv"):
         
     except Exception as e:
         logging.error(f"--- [ERROR] Falló el proceso: {e} ---")
+
+
+def read_csv(path):
+    if not os. path.exist(path):
+        logging.error(f"Error: Archivo en {path} no existe")
+        raise FileNotFoundError(f"No se encontro el archivo en: {path}")
+    
+    try:
+        df = pd.read_csv(path)
+        logging.info(f"Exito archivo encontrado y cargado con {len(df)} registros")
+        return df
+    except Exception as e:
+        logging.error(f"Error al leer el CSV: {e}")
+        raise

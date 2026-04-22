@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, BackgroundTasks
-from src.db import get_supabase
-from src.csv_to_supabase import ingestar_csv_task, info_ingesta 
+from src.config import get_supabase
+from src.extractors.csv_to_supabase import ingestar_csv_task, info_ingesta
+from  
 
 app = FastAPI()
 
@@ -33,3 +34,8 @@ def trigger_csv_ingestion(background_tasks: BackgroundTasks):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al iniciar: {e}")
+    
+
+def run_pipline():
+    try:
+        raw_data = read_c
