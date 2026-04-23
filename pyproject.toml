@@ -12,7 +12,8 @@ dependencies = [
     "matplotlib (>=3.10.8,<4.0.0)",
     "python-dotenv (>=1.2.2,<2.0.0)",
     "supabase (>=2.28.2,<3.0.0)",
-    "pandas (>=3.0.2,<4.0.0)"
+    "pandas (>=3.0.2,<4.0.0)",
+    "kaggle (>=2.0.2,<3.0.0)"
 ]
 
 

@@ -1,41 +1,42 @@
-from fastapi import FastAPI, HTTPException, BackgroundTasks
-from src.config import get_supabase
-from src.extractors.csv_to_supabase import ingestar_csv_task, info_ingesta
-from  
+import logging
+import pandas as pd
+import os
+from src.config import RAW_DATA_DIR
+from src.extractors.remote_extractor import download_dataset
+from src.processors.cleaner import clean_vr_data
+from src.processors.transformer import transform_vr_data
 
-app = FastAPI()
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
-@app.get("/")
-def read_root():
-    return {
-        "estado_api": "API corriendo",
-        "ultima_ingesta": {
-            "fecha": info_ingesta["fecha_ejecucion"],
-            "ultimo_dato_json": info_ingesta["ultimo_registro_guardado"]
-        }
-    }
-
-@app.get("/test-db")
-def test_connection():
-    try:
-        supabase = get_supabase()
-        response = supabase.table("abandono_escolar").select("*").limit(1).execute()
-        return {"status": "ok", "data": response.data}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.post("/ingest-csv")
-def trigger_csv_ingestion(background_tasks: BackgroundTasks):
-    try:
-        background_tasks.add_task(ingestar_csv_task, "src/abandono_escolar_dataset.csv")
-        return {
-            "status": "procesando",
-            "message": "La ingesta ha comenzado. Actualiza la página de inicio en unos segundos para ver el resultado."
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error al iniciar: {e}")
+def run_pipeline():
+    # 1. Extracción (Capa Bronze)
+    download_dataset()
     
+    # Buscamos el archivo descargado (el nombre puede variar según Kaggle)
+    csv_path = os.path.join(RAW_DATA_DIR, "data.csv")
+    
+    if not os.path.exists(csv_path):
+        logging.error("No se encontró el CSV en la ruta especificada.")
+        return
 
-def run_pipline():
-    try:
-        raw_data = read_c
+    # Cargamos a memoria
+    df_raw = pd.read_csv(csv_path)
+    
+    print(f"Columnas detectadas: {df_raw.columns.tolist()}")
+
+    # 2. Limpieza (Capa Silver - Parte A)
+    df_cleaned = clean_vr_data(df_raw)
+
+    # 3. Transformación (Capa Silver - Parte B)
+    df_final = transform_vr_data(df_cleaned)
+
+    # 4. Guardar resultado (Capa Silver Final)
+    output_path = csv_path.replace("raw", "processed").replace(".csv", "_limpio.csv")
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    df_final.to_csv(output_path, index=False)
+    
+    logging.info(f"Pipeline completado. Archivo final en: {output_path}")
+
+if __name__ == "__main__":
+    run_pipeline()
+    # En src/main.py, justo después de df_raw = pd.read_csv(csv_path)
