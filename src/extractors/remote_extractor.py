@@ -1,6 +1,5 @@
 import os
 import logging
-import src.config # Esto asegura que load_dotenv() se ejecute primero
 
 def download_dataset():
     # IMPORTANTE: El import de Kaggle debe ir AQUÍ ADENTRO

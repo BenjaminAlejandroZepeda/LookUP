@@ -5,6 +5,7 @@ from src.config import RAW_DATA_DIR
 from src.extractors.remote_extractor import download_dataset
 from src.processors.cleaner import clean_vr_data
 from src.processors.transformer import transform_vr_data
+from src.processors.validator import validate_data
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
@@ -26,6 +27,11 @@ def run_pipeline():
 
     # 2. Limpieza (Capa Silver - Parte A)
     df_cleaned = clean_vr_data(df_raw)
+
+    is_valid = validate_data(df_cleaned)
+    
+    if not is_valid:
+        logging.warning("Se detectaron problemas en la validación. Revisa data/reports/error_report.txt")
 
     # 3. Transformación (Capa Silver - Parte B)
     df_final = transform_vr_data(df_cleaned)
